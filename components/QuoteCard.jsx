@@ -20,24 +20,11 @@ const QuoteCard = memo(function QuoteCard({ quote, showAuthorLink = true }) {
     e.preventDefault();
     e.stopPropagation();
     
-    // Update local state immediately to prevent layout shifts
+    // Only toggle the visual state locally
     setIsLiked(!isLiked);
     
-    // Delay the actual upvote to prevent feed re-ordering
-    // Use requestAnimationFrame for smoother UI updates
-    requestAnimationFrame(() => {
-      // Store the current scroll position
-      const scrollPosition = window.scrollY;
-      
-      // Update the quote
-      upvoteQuote(quote.id);
-      
-      // Restore scroll position to prevent jumping
-      window.scrollTo({
-        top: scrollPosition,
-        behavior: 'auto'
-      });
-    });
+    // Don't update the actual upvote count for now
+    // upvoteQuote(quote.id);
   };
   
   const handleShare = async () => {
