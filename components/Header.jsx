@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 
-export default function Header() {
+export default function Header({ title, showBackArrow }) {
   const router = useRouter();
   
   const handleSearchClick = () => {
@@ -22,13 +22,33 @@ export default function Header() {
     // Otherwise, Next.js Link will navigate to home
   };
   
+  const handleBackClick = () => {
+    router.push('/');
+  };
+  
   return (
-    <div className="header-container">
+    <>
       <header className="header">
         <div className="header-main">
-          <Link href="/" onClick={handleTitleClick}>
-            <h1>Echoes</h1>
-          </Link>
+          {showBackArrow ? (
+            <>
+              <button 
+                onClick={handleBackClick} 
+                className="back-arrow"
+                aria-label="Go back to home"
+              >
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M19 12H5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M12 19L5 12L12 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </button>
+              <h1>{title || 'Echoes'}</h1>
+            </>
+          ) : (
+            <Link href="/" onClick={handleTitleClick}>
+              <h1>Echoes</h1>
+            </Link>
+          )}
           <div className="header-icons">
             <button 
               onClick={handleSearchClick} 
@@ -55,9 +75,11 @@ export default function Header() {
           </div>
         </div>
       </header>
-      <div className="header-subtitle">
-        <p>Timeless wisdom from history&apos;s greatest thinkers</p>
-      </div>
-    </div>
+      {!showBackArrow && (
+        <div className="header-subtitle">
+          <p>Timeless wisdom from history&apos;s greatest thinkers</p>
+        </div>
+      )}
+    </>
   );
 } 

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useQuotes } from '../context/QuotesContext';
 import QuoteCard from '../components/QuoteCard';
+import Layout from '../components/Layout'; 
 
 export default function TrendingPage() {
   const router = useRouter();
@@ -43,26 +44,8 @@ export default function TrendingPage() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [hasMore, isLoading]);
   
-  const handleBackClick = () => {
-    router.back();
-  };
-  
   return (
-    <div>
-      <div className="page-header">
-        <button 
-          onClick={handleBackClick} 
-          className="back-button"
-          aria-label="Go back"
-        >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M19 12H5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            <path d="M12 19L5 12L12 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-        </button>
-        <h2 className="page-title">Trending</h2>
-      </div>
-      
+    <Layout title="Trending - Echoes">
       <div className="quote-feed">
         {isLoading && page === 1 ? (
           <div className="loading">Loading trending quotes...</div>
@@ -86,6 +69,6 @@ export default function TrendingPage() {
           </>
         )}
       </div>
-    </div>
+    </Layout>
   );
 } 

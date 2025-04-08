@@ -24,9 +24,20 @@ const QuoteCard = memo(function QuoteCard({ quote, showAuthorLink = true }) {
     setIsLiked(!isLiked);
     
     // Delay the actual upvote to prevent feed re-ordering
-    setTimeout(() => {
+    // Use requestAnimationFrame for smoother UI updates
+    requestAnimationFrame(() => {
+      // Store the current scroll position
+      const scrollPosition = window.scrollY;
+      
+      // Update the quote
       upvoteQuote(quote.id);
-    }, 300);
+      
+      // Restore scroll position to prevent jumping
+      window.scrollTo({
+        top: scrollPosition,
+        behavior: 'auto'
+      });
+    });
   };
   
   const handleShare = async () => {
