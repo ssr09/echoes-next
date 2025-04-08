@@ -203,6 +203,9 @@ a {
   transition: color 0.2s;
   display: inline-flex;
   align-items: center;
+  border-bottom: 1px solid currentColor;
+  text-decoration: none;
+  padding-bottom: 1px;
 }
 
 .author-link:hover {
@@ -213,18 +216,19 @@ a {
   display: inline-block;
   margin-left: 4px;
   color: var(--accent-color);
-  transform: rotate(45deg);
+  transform: rotate(0deg);
 }
 
 /* Quote actions (buttons) - Facebook style */
 .quote-actions {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   padding: 0.5rem 0;
   width: 100%;
   margin: 0.5rem auto;
   border-top: none;
   border-bottom: none;
+  gap: 8px;
 }
 
 .fb-action-btn {
@@ -234,14 +238,15 @@ a {
   gap: 0.5rem;
   background-color: rgba(255, 255, 255, 0.05);
   border: none;
-  border-radius: 20px;
-  padding: 0.5rem 1rem;
+  border-radius: 9999px;
   cursor: pointer;
   color: var(--accent-color);
   font-size: 0.9rem;
   transition: all 0.2s ease;
-  flex: 1;
   margin: 0 0.25rem;
+  width: 48px;
+  height: 48px;
+  padding: 0;
 }
 
 .fb-action-btn:first-child {
