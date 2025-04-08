@@ -13,10 +13,19 @@ export default function Header() {
     router.push('/trending');
   };
   
+  const handleTitleClick = (e) => {
+    // If we're already on the home page, refresh the page
+    if (router.pathname === '/') {
+      e.preventDefault();
+      window.location.reload();
+    }
+    // Otherwise, Next.js Link will navigate to home
+  };
+  
   return (
     <header className="header">
       <div className="header-main">
-        <Link href="/">
+        <Link href="/" onClick={handleTitleClick}>
           <h1>Echoes</h1>
         </Link>
         <div className="header-icons">

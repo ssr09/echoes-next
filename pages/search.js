@@ -8,6 +8,7 @@ export default function SearchPage() {
   const { searchQuotes, isLoading, error } = useQuotes();
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
+  const [hasSearched, setHasSearched] = useState(false);
   const [page, setPage] = useState(1);
   const resultsPerPage = 10;
   const [hasMore, setHasMore] = useState(true);
@@ -17,6 +18,7 @@ export default function SearchPage() {
     if (searchQuery.trim()) {
       const results = searchQuotes(searchQuery);
       setSearchResults(results);
+      setHasSearched(true);
       setPage(1);
     }
   };
@@ -87,12 +89,10 @@ export default function SearchPage() {
           <div className="loading">Searching...</div>
         ) : error ? (
           <div className="error">{error}</div>
-        ) : searchResults.length === 0 ? (
-          searchQuery && (
-            <div className="error">
-              <p>No results found. Try different keywords or phrases.</p>
-            </div>
-          )
+        ) : hasSearched && searchResults.length === 0 ? (
+          <div className="error">
+            <p>No results found. Try different keywords or phrases.</p>
+          </div>
         ) : (
           <>
             {displayedResults.map((quote, index) => (
