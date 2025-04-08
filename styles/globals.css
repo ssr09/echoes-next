@@ -33,11 +33,15 @@ a {
   padding: 1rem;
   max-width: 600px;
   margin: 0 auto;
+  overflow: visible;
+  width: 100%;
 }
 
 /* Header */
 .header-container {
   margin-bottom: 1.5rem;
+  position: relative;
+  overflow: visible;
 }
 
 .header {
@@ -49,6 +53,7 @@ a {
   top: 0;
   z-index: 100;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  will-change: transform;
 }
 
 .header-main {
@@ -63,6 +68,8 @@ a {
   border-bottom: 1px solid var(--border-color);
   background-color: var(--bg-color);
   transition: opacity 0.3s ease;
+  position: static;
+  z-index: 99;
 }
 
 .header-icons {
@@ -230,9 +237,18 @@ a {
   border-bottom: none;
   gap: 8px;
   height: 64px; /* Fixed height to prevent layout shifting */
+  position: relative;
+  z-index: 1;
+  will-change: transform; /* Performance optimization */
+  contain: layout; /* Isolation to prevent layout shifts */
 }
 
+/* Prevent layout shifts with hardware acceleration */
 .fb-action-btn {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-font-smoothing: subpixel-antialiased;
+  /* Other existing properties */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -270,17 +286,18 @@ a {
 }
 
 .fb-action-btn.active {
-  color: #a0d0f0;
-  background-color: rgba(160, 208, 240, 0.1);
+  color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1) inset;
 }
 
 .fb-action-btn.liked {
-  color: #e25555;
+  color: #ff5c85;
 }
 
 .fb-action-btn.liked svg {
-  fill: #e25555;
-  color: #e25555;
+  fill: #ff5c85;
+  color: #ff5c85;
 }
 
 .fb-action-btn span {
@@ -467,16 +484,38 @@ a {
 
 /* Explanation and similar quotes */
 .explanation, .similar-quotes {
-  margin-top: 1rem;
-  padding: 1rem;
-  background-color: var(--explanation-bg);
-  border-radius: 5px;
-  font-size: 0.875rem;
-  border-left: 2px solid var(--accent-color);
-  animation: fadeIn 0.3s ease-in-out;
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+  padding: 1.25rem;
+  background-color: rgba(255, 255, 255, 0.03);
+  border-radius: 12px;
+  font-size: 0.9rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.6;
+  letter-spacing: 0.01em;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border: none;
+  animation: fadeIn 0.4s ease-out;
+}
+
+.explanation h4, .similar-quotes h4 {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  font-weight: 500;
+  margin-bottom: 0.75rem;
+  color: #e0e0e0;
+  font-size: 1rem;
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-10px); }
+  from { opacity: 0; transform: translateY(-8px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+/* Layout */
+.main-layout {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
 } 

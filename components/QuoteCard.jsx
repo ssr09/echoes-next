@@ -1,9 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, memo } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useQuotes } from '../context/QuotesContext';
 
-export default function QuoteCard({ quote, showAuthorLink = true }) {
+// Using memo to prevent unnecessary re-renders
+const QuoteCard = memo(function QuoteCard({ quote, showAuthorLink = true }) {
   const [showExplanation, setShowExplanation] = useState(false);
   const [showSimilar, setShowSimilar] = useState(false);
   const [isLiked, setIsLiked] = useState(quote.hasUpvoted || false);
@@ -15,9 +16,17 @@ export default function QuoteCard({ quote, showAuthorLink = true }) {
     setIsLiked(quote.hasUpvoted || false);
   }, [quote.hasUpvoted]);
   
-  const handleUpvote = () => {
-    upvoteQuote(quote.id);
+  const handleUpvote = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    // Update local state immediately to prevent layout shifts
     setIsLiked(!isLiked);
+    
+    // Delay the actual upvote to prevent feed re-ordering
+    setTimeout(() => {
+      upvoteQuote(quote.id);
+    }, 300);
   };
   
   const handleShare = async () => {
@@ -125,7 +134,8 @@ export default function QuoteCard({ quote, showAuthorLink = true }) {
       
       {showExplanation && quote.explanation && (
         <div className="explanation">
-          {quote.explanation}
+          <h4>Context & Meaning</h4>
+          <p>{quote.explanation}</p>
         </div>
       )}
       
@@ -139,4 +149,6 @@ export default function QuoteCard({ quote, showAuthorLink = true }) {
       )}
     </div>
   );
-} 
+});
+
+export default QuoteCard; 

@@ -11,9 +11,11 @@ export default function Layout({ children, title = 'Echoes - Timeless Wisdom' })
         <link rel="icon" href="/favicon.ico" />
       </Head>
       
-      <div className="container">
+      <div className="main-layout">
         <Header />
-        <main>{children}</main>
+        <div className="container">
+          <main>{children}</main>
+        </div>
       </div>
     </>
   );

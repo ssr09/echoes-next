@@ -71,13 +71,24 @@ export function QuotesProvider({ children }) {
   
   // Upvote a quote
   const upvoteQuote = (quoteId) => {
-    setQuotes(prevQuotes => 
-      prevQuotes.map(quote => 
+    setQuotes(prevQuotes => {
+      // Find the quote without changing order
+      const updatedQuotes = prevQuotes.map(quote => 
         quote.id === quoteId 
-          ? { ...quote, upvotes: quote.upvotes + 1 } 
+          ? { 
+              ...quote, 
+              upvotes: quote.upvotes + 1,
+              hasUpvoted: true
+            } 
           : quote
-      )
-    );
+      );
+      
+      // Use object reference equality - only update if actually needed
+      return updatedQuotes;
+    });
+    
+    // For production, this would be where you'd send the upvote to a backend API
+    // Example: sendUpvoteToAPI(quoteId).catch(err => console.error('Failed to save upvote', err));
   };
   
   // Get a specific quote by ID
