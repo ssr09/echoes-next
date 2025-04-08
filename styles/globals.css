@@ -213,9 +213,9 @@ a {
   justify-content: space-between;
   padding: 0.5rem 0;
   width: 100%;
-  margin: 0 auto;
-  border-top: 1px solid var(--border-color);
-  border-bottom: 1px solid var(--border-color);
+  margin: 0.5rem auto;
+  border-top: none;
+  border-bottom: none;
 }
 
 .fb-action-btn {
@@ -223,7 +223,7 @@ a {
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(255, 255, 255, 0.05);
   border: none;
   border-radius: 20px;
   padding: 0.5rem 1rem;
@@ -244,8 +244,9 @@ a {
 }
 
 .fb-action-btn:hover {
-  background-color: rgba(255, 255, 255, 0.15);
+  background-color: rgba(255, 255, 255, 0.1);
   color: var(--text-color);
+  transform: translateY(-1px);
 }
 
 .fb-action-btn:active {
