@@ -49,7 +49,13 @@ export default function QuoteCard({ quote, showAuthorLink = true }) {
         {showAuthorLink ? (
           <p className="quote-author">
             — <Link href={`/author/${encodeURIComponent(quote.author)}`}>
-              <span className="author-link">{quote.author}</span>
+              <span className="author-link">
+                {quote.author}
+                <svg className="author-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M7 17L17 7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M7 7H17V17" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </span>
             </Link>
           </p>
         ) : (

@@ -201,10 +201,19 @@ a {
   text-decoration: underline;
   color: #f0f0f0;
   transition: color 0.2s;
+  display: inline-flex;
+  align-items: center;
 }
 
 .author-link:hover {
   color: #ffffff;
+}
+
+.author-arrow {
+  display: inline-block;
+  margin-left: 4px;
+  color: var(--accent-color);
+  transform: rotate(45deg);
 }
 
 /* Quote actions (buttons) - Facebook style */
