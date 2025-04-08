@@ -8,13 +8,28 @@ const QuoteCard = memo(function QuoteCard({ quote, showAuthorLink = true }) {
   const [showExplanation, setShowExplanation] = useState(false);
   const [showSimilar, setShowSimilar] = useState(false);
   const [isLiked, setIsLiked] = useState(quote.hasUpvoted || false);
-  const { upvoteQuote } = useQuotes();
+  const [similarQuotes, setSimilarQuotes] = useState([]);
+  const [isLoadingSimilar, setIsLoadingSimilar] = useState(false);
+  const { upvoteQuote, getSimilarQuotes } = useQuotes();
   const router = useRouter();
   
   // Update local state if quote prop changes
   useEffect(() => {
     setIsLiked(quote.hasUpvoted || false);
   }, [quote.hasUpvoted]);
+  
+  // Fetch similar quotes when the similar button is clicked
+  useEffect(() => {
+    if (showSimilar && similarQuotes.length === 0) {
+      setIsLoadingSimilar(true);
+      // Small timeout to allow UI to update for loading state
+      setTimeout(() => {
+        const similar = getSimilarQuotes(quote.id, 3);
+        setSimilarQuotes(similar);
+        setIsLoadingSimilar(false);
+      }, 100);
+    }
+  }, [showSimilar, quote.id, getSimilarQuotes, similarQuotes.length]);
   
   const handleUpvote = (e) => {
     e.preventDefault();
@@ -141,7 +156,23 @@ const QuoteCard = memo(function QuoteCard({ quote, showAuthorLink = true }) {
         <div className="similar-quotes">
           <h4>Similar Quotes</h4>
           <div className="similar-container">
-            <p>Similar quotes feature coming soon</p>
+            {isLoadingSimilar ? (
+              <p className="loading-similar">Finding similar quotes...</p>
+            ) : similarQuotes.length > 0 ? (
+              similarQuotes.map((similarQuote) => (
+                <div key={similarQuote.id} className="similar-quote-item">
+                  <p className="similar-quote-text">"{similarQuote.quote}"</p>
+                  <p className="similar-quote-author">
+                    — 
+                    <Link href={`/author/${encodeURIComponent(similarQuote.author)}`}>
+                      <span className="similar-author-link">{similarQuote.author}</span>
+                    </Link>
+                  </p>
+                </div>
+              ))
+            ) : (
+              <p>No similar quotes found</p>
+            )}
           </div>
         </div>
       )}

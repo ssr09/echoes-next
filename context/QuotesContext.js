@@ -96,6 +96,58 @@ export function QuotesProvider({ children }) {
     return quotes.find(quote => quote.id === id) || null;
   };
   
+  // Get similar quotes using vector embeddings
+  const getSimilarQuotes = (quoteId, limit = 3) => {
+    const sourceQuote = quotes.find(q => q.id === quoteId);
+    if (!sourceQuote || !sourceQuote.embedding) return [];
+    
+    // Skip the source quote itself
+    const otherQuotes = quotes.filter(q => q.id !== quoteId);
+    
+    // Calculate cosine similarity using embeddings
+    const scoredQuotes = otherQuotes
+      .filter(quote => quote.embedding) // Only compare quotes that have embeddings
+      .map(quote => {
+        // Calculate cosine similarity
+        const similarity = calculateCosineSimilarity(
+          sourceQuote.embedding,
+          quote.embedding
+        );
+        
+        return {
+          ...quote,
+          similarityScore: similarity
+        };
+      });
+    
+    // Sort by similarity score and take top results
+    return scoredQuotes
+      .sort((a, b) => b.similarityScore - a.similarityScore)
+      .slice(0, limit);
+  };
+  
+  // Cosine similarity calculation between two vectors
+  const calculateCosineSimilarity = (vecA, vecB) => {
+    if (!vecA || !vecB || vecA.length !== vecB.length) return 0;
+    
+    // Calculate dot product
+    let dotProduct = 0;
+    let normA = 0;
+    let normB = 0;
+    
+    for (let i = 0; i < vecA.length; i++) {
+      dotProduct += vecA[i] * vecB[i];
+      normA += vecA[i] * vecA[i];
+      normB += vecB[i] * vecB[i];
+    }
+    
+    // Prevent division by zero
+    if (normA === 0 || normB === 0) return 0;
+    
+    // Calculate cosine similarity
+    return dotProduct / (Math.sqrt(normA) * Math.sqrt(normB));
+  };
+  
   // Get quotes by author
   const getQuotesByAuthor = (authorName) => {
     return quotes.filter(quote => 
@@ -203,7 +255,8 @@ export function QuotesProvider({ children }) {
     getQuoteById,
     getQuotesByAuthor,
     searchQuotes,
-    getFeedQuotes
+    getFeedQuotes,
+    getSimilarQuotes
   };
   
   return (
