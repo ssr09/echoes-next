@@ -4,6 +4,30 @@ import axios from 'axios';
 // Create the quotes context
 const QuotesContext = createContext();
 
+// Sources for well-known authors/works as a fallback
+const commonSources = {
+  'Marcus Aurelius': 'Meditations',
+  'Seneca': 'Letters from a Stoic',
+  'Epictetus': 'Enchiridion',
+  'Lao Tzu': 'Tao Te Ching',
+  'Confucius': 'Analects',
+  'Buddha': 'Dhammapada',
+  'Aristotle': 'Nicomachean Ethics',
+  'Plato': 'The Republic',
+  'Socrates': 'Dialogues of Plato',
+  'Ralph Waldo Emerson': 'Essays',
+  'Henry David Thoreau': 'Walden',
+  'Friedrich Nietzsche': 'Thus Spoke Zarathustra',
+  'Carl Jung': 'Collected Works',
+  'Albert Einstein': 'Essays in Science',
+  'William Shakespeare': 'Complete Works',
+  'Rumi': 'The Essential Rumi',
+  'Khalil Gibran': 'The Prophet',
+  'Viktor Frankl': 'Man\'s Search for Meaning',
+  'Alan Watts': 'The Way of Zen',
+  'Bhagavad Gita': 'Bhagavad Gita'
+};
+
 export function QuotesProvider({ children }) {
   // State for quotes data
   const [quotes, setQuotes] = useState([]);
@@ -16,7 +40,23 @@ export function QuotesProvider({ children }) {
       try {
         setIsLoading(true);
         const response = await axios.get('/quotes.json');
-        setQuotes(response.data);
+        
+        // Process quotes to ensure they have necessary properties and add sources where possible
+        const processedQuotes = response.data.map(quote => {
+          // If the quote already has a source, use it
+          if (quote.source) {
+            return quote;
+          }
+          
+          // Try to add sources for well-known authors
+          if (commonSources[quote.author]) {
+            return { ...quote, source: commonSources[quote.author] };
+          }
+          
+          return quote;
+        });
+        
+        setQuotes(processedQuotes);
         setError(null);
       } catch (err) {
         console.error('Error loading quotes:', err);
@@ -63,6 +103,7 @@ export function QuotesProvider({ children }) {
       .map(quote => {
         const quoteText = quote.quote.toLowerCase();
         const authorText = quote.author.toLowerCase();
+        const sourceText = quote.source ? quote.source.toLowerCase() : '';
         
         // Calculate match score
         let score = 0;
@@ -76,12 +117,19 @@ export function QuotesProvider({ children }) {
           score += 5;
         }
         
+        if (sourceText.includes(lowercaseQuery)) {
+          score += 3;
+        }
+        
         // Check for individual word matches
         queryWords.forEach(word => {
           if (quoteText.includes(word)) {
             score += 2;
           }
           if (authorText.includes(word)) {
+            score += 1;
+          }
+          if (sourceText.includes(word)) {
             score += 1;
           }
         });

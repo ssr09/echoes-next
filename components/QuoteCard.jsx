@@ -21,7 +21,7 @@ export default function QuoteCard({ quote, showAuthorLink = true }) {
       try {
         await navigator.share({
           title: `Quote by ${quote.author}`,
-          text: `"${quote.quote}" — ${quote.author}`,
+          text: `"${quote.quote}" — ${quote.author}${quote.source ? ` (${quote.source})` : ''}`,
           url: shareUrl
         });
       } catch (err) {
@@ -40,70 +40,81 @@ export default function QuoteCard({ quote, showAuthorLink = true }) {
   
   return (
     <div className="quote-item">
+      <div className="quote-header">
+        <button 
+          onClick={handleShare} 
+          className="share-btn"
+          aria-label="Share"
+          title="Share"
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="18" cy="5" r="3" stroke="currentColor" strokeWidth="1.5"/>
+            <circle cx="6" cy="12" r="3" stroke="currentColor" strokeWidth="1.5"/>
+            <circle cx="18" cy="19" r="3" stroke="currentColor" strokeWidth="1.5"/>
+            <line x1="8.7" y1="10.7" x2="15.3" y2="6.3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+            <line x1="8.7" y1="13.3" x2="15.3" y2="17.7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+          </svg>
+        </button>
+      </div>
+      
       <p className="quote-text">{quote.quote}</p>
-      <p className="quote-author">
+      
+      <div className="quote-attribution">
         {showAuthorLink ? (
-          <>— <Link href={`/author/${encodeURIComponent(quote.author)}`}>
-            <span className="author-link">{quote.author}</span>
-          </Link></>
+          <p className="quote-author">
+            — <Link href={`/author/${encodeURIComponent(quote.author)}`}>
+              <span className="author-link">{quote.author}</span>
+            </Link>
+          </p>
         ) : (
-          <>— {quote.author}</>
+          <p className="quote-author">— {quote.author}</p>
         )}
-      </p>
+        
+        {quote.source && (
+          <p className="quote-source">{quote.source}</p>
+        )}
+      </div>
       
       <div className="quote-actions">
-        <div className="action-group">
-          <button 
-            onClick={handleUpvote} 
-            className="action-btn"
-            aria-label="Upvote"
-          >
-            ▲ <span>{quote.upvotes}</span>
-          </button>
-        </div>
+        <button 
+          onClick={handleUpvote} 
+          className="action-btn upvote-btn"
+          aria-label="Upvote"
+          title="Upvote"
+        >
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 20V4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M5 11L12 4L19 11" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+          <span className="upvote-count">{quote.upvotes}</span>
+        </button>
         
-        <div className="action-group">
-          <button 
-            onClick={() => setShowSimilar(!showSimilar)} 
-            className="action-btn"
-            aria-label={showSimilar ? "Hide Similar" : "Show Similar"}
-            title={showSimilar ? "Hide Similar" : "Show Similar"}
-          >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M21 15V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M7 10L12 15L17 10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M12 15V3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-          </button>
-          
-          <button 
-            onClick={() => setShowExplanation(!showExplanation)} 
-            className="action-btn"
-            aria-label={showExplanation ? "Hide Explanation" : "Explain"}
-            title={showExplanation ? "Hide Explanation" : "Explain"}
-          >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M9.09 9C9.3251 8.33167 9.78915 7.76811 10.4 7.40913C11.0108 7.05016 11.7289 6.91894 12.4272 7.03871C13.1255 7.15848 13.7588 7.52152 14.2151 8.06353C14.6713 8.60553 14.9211 9.29152 14.92 10C14.92 12 11.92 13 11.92 13" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              <circle cx="12" cy="17" r="1" fill="currentColor"/>
-              <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-          </button>
-          
-          <button 
-            onClick={handleShare} 
-            className="action-btn"
-            aria-label="Share"
-            title="Share"
-          >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M18 8C19.6569 8 21 6.65685 21 5C21 3.34315 19.6569 2 18 2C16.3431 2 15 3.34315 15 5C15 6.65685 16.3431 8 18 8Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M6 15C7.65685 15 9 13.6569 9 12C9 10.3431 7.65685 9 6 9C4.34315 9 3 10.3431 3 12C3 13.6569 4.34315 15 6 15Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M18 22C19.6569 22 21 20.6569 21 19C21 17.3431 19.6569 16 18 16C16.3431 16 15 17.3431 15 19C15 20.6569 16.3431 22 18 22Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M8.59 13.51L15.42 17.49" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M15.41 6.51L8.59 10.49" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-          </button>
-        </div>
+        <button 
+          onClick={() => setShowExplanation(!showExplanation)} 
+          className={`action-btn explain-btn ${showExplanation ? 'active' : ''}`}
+          aria-label={showExplanation ? "Hide Explanation" : "Explain"}
+          title={showExplanation ? "Hide Explanation" : "Explain"}
+        >
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="1.5"/>
+            <path d="M10 9C10 7.89543 10.8954 7 12 7C13.1046 7 14 7.89543 14 9C14 10.1046 13.1046 11 12 11V14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+            <circle cx="12" cy="17" r="1" fill="currentColor"/>
+          </svg>
+        </button>
+        
+        <button 
+          onClick={() => setShowSimilar(!showSimilar)} 
+          className={`action-btn similar-btn ${showSimilar ? 'active' : ''}`}
+          aria-label={showSimilar ? "Hide Similar" : "Show Similar"}
+          title={showSimilar ? "Hide Similar" : "Show Similar"}
+        >
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="3" y="3" width="7" height="7" rx="1" stroke="currentColor" strokeWidth="1.5"/>
+            <rect x="3" y="14" width="7" height="7" rx="1" stroke="currentColor" strokeWidth="1.5"/>
+            <rect x="14" y="3" width="7" height="7" rx="1" stroke="currentColor" strokeWidth="1.5"/>
+            <rect x="14" y="14" width="7" height="7" rx="1" stroke="currentColor" strokeWidth="1.5"/>
+          </svg>
+        </button>
       </div>
       
       {showExplanation && quote.explanation && (

@@ -56,27 +56,28 @@ export default function SearchPage() {
   return (
     <div className="search-modal">
       <div className="search-modal-header">
-        <button 
-          onClick={handleClose} 
-          className="back-button"
-          aria-label="Close search"
-        >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M19 12H5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            <path d="M12 19L5 12L12 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-        </button>
-        
         <form onSubmit={handleSearch} className="search-form">
-          <input
-            type="text"
-            className="search-input"
-            placeholder="Search quotes or authors..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            autoFocus
-          />
-          <button type="submit" className="search-btn">Search</button>
+          <div className="search-input-container">
+            <svg className="search-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M11 18C14.866 18 18 14.866 18 11C18 7.13401 14.866 4 11 4C7.13401 4 4 7.13401 4 11C4 14.866 7.13401 18 11 18Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M20 20L16 16" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+            <input
+              type="text"
+              className="search-input"
+              placeholder="Search quotes or authors..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              autoFocus
+            />
+          </div>
+          <button 
+            type="button" 
+            onClick={handleClose} 
+            className="cancel-btn"
+          >
+            Cancel
+          </button>
         </form>
       </div>
       
