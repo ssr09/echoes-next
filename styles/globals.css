@@ -229,6 +229,7 @@ a {
   border-top: none;
   border-bottom: none;
   gap: 8px;
+  height: 64px; /* Fixed height to prevent layout shifting */
 }
 
 .fb-action-btn {
@@ -247,6 +248,7 @@ a {
   width: 48px;
   height: 48px;
   padding: 0;
+  flex-shrink: 0;
 }
 
 .fb-action-btn:first-child {
@@ -270,6 +272,15 @@ a {
 .fb-action-btn.active {
   color: #a0d0f0;
   background-color: rgba(160, 208, 240, 0.1);
+}
+
+.fb-action-btn.liked {
+  color: #e25555;
+}
+
+.fb-action-btn.liked svg {
+  fill: #e25555;
+  color: #e25555;
 }
 
 .fb-action-btn span {
