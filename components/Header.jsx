@@ -3,33 +3,46 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 
 export default function Header() {
-  const [searchQuery, setSearchQuery] = useState('');
   const router = useRouter();
   
-  const handleSearch = (e) => {
-    e.preventDefault();
-    if (searchQuery.trim()) {
-      router.push(`/search?q=${encodeURIComponent(searchQuery)}`);
-    }
+  const handleSearchClick = () => {
+    router.push('/search');
+  };
+  
+  const handleTrendingClick = () => {
+    router.push('/trending');
   };
   
   return (
     <header className="header">
-      <Link href="/">
-        <h1>Echoes</h1>
-      </Link>
+      <div className="header-main">
+        <Link href="/">
+          <h1>Echoes</h1>
+        </Link>
+        <div className="header-icons">
+          <button 
+            onClick={handleSearchClick} 
+            className="icon-button"
+            aria-label="Search"
+          >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M21 21L16.65 16.65" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </button>
+          <button 
+            onClick={handleTrendingClick} 
+            className="icon-button"
+            aria-label="Trending"
+          >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M23 6L13.5 15.5L8.5 10.5L1 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M17 6H23V12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </button>
+        </div>
+      </div>
       <p>Timeless wisdom from history&apos;s greatest thinkers</p>
-      
-      <form onSubmit={handleSearch} className="search-container">
-        <input
-          type="text"
-          className="search-input"
-          placeholder="Search quotes or authors..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
-        <button type="submit" className="search-btn">Search</button>
-      </form>
     </header>
   );
 } 
