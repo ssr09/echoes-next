@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import Link from 'next/link';
 import { useQuotes } from '../../context/QuotesContext';
 import QuoteCard from '../../components/QuoteCard';
 
@@ -47,6 +46,10 @@ export default function AuthorPage() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [hasMore, isLoading]);
   
+  const handleBackClick = () => {
+    router.back();
+  };
+  
   if (!name) {
     return <div className="loading">Loading...</div>;
   }
@@ -56,13 +59,20 @@ export default function AuthorPage() {
   return (
     <div>
       <div className="author-header">
+        <button 
+          onClick={handleBackClick} 
+          className="back-button"
+          aria-label="Go back"
+        >
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M19 12H5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M12 19L5 12L12 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        </button>
         <h2 className="author-name">{decodedName}</h2>
-        <Link href="/">
-          <span className="back-btn">← Back to Feed</span>
-        </Link>
       </div>
       
-      <div className="feed">
+      <div className="quote-feed">
         {isLoading ? (
           <div className="loading">Loading quotes...</div>
         ) : error ? (

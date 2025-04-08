@@ -1,11 +1,12 @@
 :root {
-  --bg-color: #f9f7f1;
-  --card-color: #ffffff;
-  --text-color: #333333;
-  --accent-color: #555555;
-  --border-color: #dddddd;
-  --tag-bg: #f0f0f0;
-  --tag-text: #666666;
+  --bg-color: #121212;
+  --card-color: #1e1e1e;
+  --text-color: #e0e0e0;
+  --accent-color: #a0a0a0;
+  --border-color: #333333;
+  --tag-bg: #2a2a2a;
+  --tag-text: #a0a0a0;
+  --explanation-bg: #1a1a1a;
 }
 
 * {
@@ -44,7 +45,7 @@ a {
   position: sticky;
   top: 0;
   z-index: 100;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 .header-main {
@@ -73,7 +74,7 @@ a {
 }
 
 .icon-button:hover {
-  background-color: rgba(0, 0, 0, 0.05);
+  background-color: rgba(255, 255, 255, 0.05);
 }
 
 .header h1 {
@@ -82,10 +83,11 @@ a {
   margin: 0;
   font-family: 'Playfair Display', 'Times New Roman', serif;
   letter-spacing: 0.5px;
+  color: var(--text-color);
 }
 
 .header p {
-  color: #666;
+  color: var(--accent-color);
   font-size: 1rem;
   text-align: left;
   padding-left: 2px;
@@ -109,25 +111,24 @@ a {
   border: 1px solid var(--border-color);
   border-radius: 4px;
   font-size: 1rem;
+  background-color: var(--card-color);
+  color: var(--text-color);
 }
 
 .search-btn {
   padding: 0.5rem 1rem;
   background-color: var(--accent-color);
-  color: white;
+  color: var(--bg-color);
   border: none;
   border-radius: 4px;
   cursor: pointer;
 }
 
-/* Quote Card */
-.quote-card {
-  background-color: var(--card-color);
-  padding: 1.25rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-  margin-bottom: 1.25rem;
-  transition: transform 0.2s;
+/* Quote Items (replacing cards) */
+.quote-item {
+  padding: 1.5rem 1rem;
+  margin-bottom: 0;
+  border-bottom: 1px solid var(--border-color);
 }
 
 .quote-text {
@@ -139,54 +140,44 @@ a {
 
 .quote-text::before {
   content: open-quote;
-  color: #999;
+  color: var(--accent-color);
 }
 
 .quote-text::after {
   content: close-quote;
-  color: #999;
+  color: var(--accent-color);
 }
 
 .quote-author {
   text-align: right;
   font-style: italic;
   font-size: 1rem;
-  color: #666;
+  color: var(--accent-color);
   margin-bottom: 0.75rem;
 }
 
 .author-link {
   cursor: pointer;
   text-decoration: underline;
-  color: var(--accent-color);
+  color: var(--text-color);
 }
 
+/* Hide tags section since we're removing tags */
 .tag-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.25rem;
-  margin-bottom: 0.75rem;
-}
-
-.tag {
-  font-size: 0.75rem;
-  padding: 0.2rem 0.5rem;
-  background-color: var(--tag-bg);
-  border-radius: 12px;
-  color: var(--tag-text);
+  display: none;
 }
 
 .quote-actions {
   display: flex;
   justify-content: space-between;
   margin-top: 1rem;
-  border-top: 1px solid #eee;
-  padding-top: 1rem;
+  padding-top: 0.5rem;
 }
 
 .action-group {
   display: flex;
-  gap: 0.5rem;
+  gap: 0.75rem;
+  align-items: center;
 }
 
 .action-btn {
@@ -198,71 +189,20 @@ a {
   cursor: pointer;
   color: var(--accent-color);
   font-size: 0.875rem;
+  transition: color 0.2s;
 }
 
-.action-btn.text-btn {
-  text-decoration: underline;
+.action-btn:hover {
+  color: var(--text-color);
 }
 
 .explanation, .similar-quotes {
   margin-top: 1rem;
   padding: 1rem;
-  background-color: #f5f5f5;
+  background-color: var(--explanation-bg);
   border-radius: 5px;
   font-size: 0.875rem;
-}
-
-/* Author Page */
-.author-header, .search-header {
-  text-align: center;
-  margin-bottom: 1.25rem;
-  padding: 1rem;
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-}
-
-.back-btn {
-  display: inline-block;
-  margin-top: 0.5rem;
-  padding: 0.25rem 0.5rem;
-  background-color: #f0f0f0;
-  border-radius: 4px;
-  color: #555;
-  cursor: pointer;
-}
-
-/* Loading and Error States */
-.loading, .error {
-  text-align: center;
-  padding: 1.25rem;
-  background: white;
-  border-radius: 8px;
-  margin: 1rem 0;
-}
-
-.error {
-  color: #d32f2f;
-}
-
-/* Responsive Adjustments */
-@media (min-width: 768px) {
-  .header h1 {
-    font-size: 2rem;
-  }
-  
-  .container {
-    padding: 1.5rem;
-  }
-  
-  .quote-text {
-    font-size: 1.25rem;
-  }
-}
-
-/* Quote Feed */
-.quote-feed {
-  padding-top: 1rem;
+  border-left: 2px solid var(--accent-color);
 }
 
 /* Search Modal */
@@ -284,7 +224,7 @@ a {
   align-items: center;
   gap: 1rem;
   padding: 1rem;
-  background-color: white;
+  background-color: var(--card-color);
   border-bottom: 1px solid var(--border-color);
   position: sticky;
   top: 0;
@@ -315,20 +255,21 @@ a {
   border: 1px solid var(--border-color);
   border-radius: 4px;
   font-size: 1rem;
+  background-color: var(--bg-color);
+  color: var(--text-color);
 }
 
 .search-results {
   flex: 1;
-  padding: 1rem;
+  padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
 }
 
 .search-stats {
   text-align: center;
-  color: #666;
-  margin-bottom: 1rem;
+  color: var(--accent-color);
+  margin: 1rem 0;
 }
 
 /* Page Header (for Trending page) */
@@ -337,16 +278,77 @@ a {
   align-items: center;
   gap: 1rem;
   padding: 1rem;
-  background-color: white;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-  margin-bottom: 1rem;
+  background-color: var(--card-color);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  margin-bottom: 0;
   position: sticky;
   top: 0;
   z-index: 10;
+  border-bottom: 1px solid var(--border-color);
 }
 
 .page-title {
   font-size: 1.5rem;
   font-weight: normal;
   margin: 0;
+  color: var(--text-color);
+}
+
+/* Loading and Error states */
+.loading, .error {
+  padding: 2rem;
+  text-align: center;
+  color: var(--accent-color);
+}
+
+/* Author Page */
+.author-header {
+  text-align: center;
+  margin-bottom: 0;
+  padding: 1rem;
+  background-color: var(--card-color);
+  border-bottom: 1px solid var(--border-color);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.author-name {
+  font-size: 1.5rem;
+  font-weight: normal;
+  margin-bottom: 0.5rem;
+  color: var(--text-color);
+}
+
+.back-btn {
+  display: inline-block;
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  color: var(--accent-color);
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.back-btn:hover {
+  color: var(--text-color);
+}
+
+/* Responsive Adjustments */
+@media (min-width: 768px) {
+  .header h1 {
+    font-size: 2rem;
+  }
+  
+  .container {
+    padding: 1.5rem;
+  }
+  
+  .quote-text {
+    font-size: 1.25rem;
+  }
+}
+
+/* Quote Feed */
+.quote-feed {
+  padding-top: 1rem;
 } 
