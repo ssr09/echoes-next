@@ -7,7 +7,8 @@ const QuotesContext = createContext();
 // List of quote files to load
 const quoteFiles = [
   '/quotes_BhagavadGita.json',
-  '/quotes_Confucius.json'
+  '/quotes_Confucius.json',
+  '/quotes_MarcusAurelius.json'
   // Add more files here as needed
   // '/quotes_Stoicism.json',
   // '/quotes_Buddhism.json',
