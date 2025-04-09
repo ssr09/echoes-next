@@ -4,30 +4,6 @@ import axios from 'axios';
 // Create the quotes context
 const QuotesContext = createContext();
 
-// Sources for well-known authors/works as a fallback
-const commonSources = {
-  'Marcus Aurelius': 'Meditations',
-  'Seneca': 'Letters from a Stoic',
-  'Epictetus': 'Enchiridion',
-  'Lao Tzu': 'Tao Te Ching',
-  'Confucius': 'Analects',
-  'Buddha': 'Dhammapada',
-  'Aristotle': 'Nicomachean Ethics',
-  'Plato': 'The Republic',
-  'Socrates': 'Dialogues of Plato',
-  'Ralph Waldo Emerson': 'Essays',
-  'Henry David Thoreau': 'Walden',
-  'Friedrich Nietzsche': 'Thus Spoke Zarathustra',
-  'Carl Jung': 'Collected Works',
-  'Albert Einstein': 'Essays in Science',
-  'William Shakespeare': 'Complete Works',
-  'Rumi': 'The Essential Rumi',
-  'Khalil Gibran': 'The Prophet',
-  'Viktor Frankl': 'Man\'s Search for Meaning',
-  'Alan Watts': 'The Way of Zen',
-  'Bhagavad Gita': 'Bhagavad Gita'
-};
-
 // List of quote files to load
 const quoteFiles = [
   '/quotes_BhagavadGita.json',
@@ -61,22 +37,10 @@ export function QuotesProvider({ children }) {
           // Process quotes from this file
           const processedQuotes = response.data.map((quote, idx) => {
             // Ensure each quote has a unique ID (if not already provided)
-            const quoteWithId = {
+            return {
               ...quote,
               id: quote.id || `${sourceFile}_${idx}`
             };
-            
-            // If the quote already has a source, use it
-            if (quoteWithId.source) {
-              return quoteWithId;
-            }
-            
-            // Try to add sources for well-known authors
-            if (commonSources[quoteWithId.author]) {
-              return { ...quoteWithId, source: commonSources[quoteWithId.author] };
-            }
-            
-            return quoteWithId;
           });
           
           allQuotes = [...allQuotes, ...processedQuotes];
@@ -187,15 +151,13 @@ export function QuotesProvider({ children }) {
     
     const lowercaseQuery = query.toLowerCase().trim();
     
-    // Return quotes that contain the query in quote text, author, or source
+    // Return quotes that contain the query in quote text or author only
     return quotes.filter(quote => {
       const quoteText = quote.quote.toLowerCase();
       const authorText = quote.author.toLowerCase();
-      const sourceText = quote.source ? quote.source.toLowerCase() : '';
       
       return quoteText.includes(lowercaseQuery) || 
-             authorText.includes(lowercaseQuery) || 
-             sourceText.includes(lowercaseQuery);
+             authorText.includes(lowercaseQuery);
     });
   };
   

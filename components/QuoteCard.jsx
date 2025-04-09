@@ -50,7 +50,7 @@ const QuoteCard = memo(function QuoteCard({ quote, showAuthorLink = true }) {
       try {
         await navigator.share({
           title: `Quote by ${quote.author}`,
-          text: `"${quote.quote}" — ${quote.author}${quote.source && quote.source !== quote.author ? ` (${quote.source})` : ''}`,
+          text: `"${quote.quote}" — ${quote.author}`,
           url: shareUrl
         });
       } catch (err) {
@@ -66,9 +66,6 @@ const QuoteCard = memo(function QuoteCard({ quote, showAuthorLink = true }) {
       }
     }
   };
-  
-  // Check if source is the same as author to avoid duplication
-  const shouldShowSource = quote.source && quote.source !== quote.author;
   
   return (
     <div className="quote-item">
@@ -88,10 +85,6 @@ const QuoteCard = memo(function QuoteCard({ quote, showAuthorLink = true }) {
           </p>
         ) : (
           <p className="quote-author">— {quote.author}</p>
-        )}
-        
-        {shouldShowSource && (
-          <p className="quote-source">{quote.source}</p>
         )}
       </div>
       
