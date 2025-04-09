@@ -27,6 +27,50 @@ export default function SearchPage() {
     }
   }, []);
   
+  // Enhanced focus handling with special iOS considerations
+  useEffect(() => {
+    // Function to focus and show virtual keyboard
+    const focusSearchInput = () => {
+      if (!searchInputRef.current) return;
+      
+      // Focus the input
+      searchInputRef.current.focus();
+      
+      // On iOS, we need to do more to ensure the keyboard appears
+      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+      
+      if (isIOS) {
+        // iOS often requires a user-initiated event to show keyboard
+        // Using a slightly longer delay and multiple attempts for iOS
+        setTimeout(() => {
+          searchInputRef.current.focus();
+          // The click can help iOS show the keyboard
+          searchInputRef.current.click();
+          
+          // iOS sometimes needs position adjustments to show keyboard
+          window.scrollTo(0, 0);
+          
+          // Additional attempt after another delay
+          setTimeout(() => {
+            searchInputRef.current.focus();
+            // Some iOS versions respond better to blur then focus again
+            searchInputRef.current.blur();
+            searchInputRef.current.focus();
+          }, 300);
+        }, 300);
+      } else if (/Android|webOS|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+        // For other mobile devices
+        searchInputRef.current.click();
+      }
+    };
+    
+    focusSearchInput();
+    
+    // Add a very small delay to ensure the component is fully mounted
+    const timer = setTimeout(focusSearchInput, 350);
+    return () => clearTimeout(timer);
+  }, []);
+  
   const handleSearch = (e) => {
     e.preventDefault();
     if (searchQuery.trim()) {
@@ -67,9 +111,19 @@ export default function SearchPage() {
     router.back();
   };
   
+  // Function to help trigger keyboard on touch devices
+  const handleContainerTouch = () => {
+    if (searchInputRef.current) {
+      searchInputRef.current.focus();
+    }
+  };
+  
   return (
     <div className="search-modal">
-      <div className="search-modal-header">
+      <div 
+        className="search-modal-header"
+        onTouchStart={handleContainerTouch}
+      >
         <form onSubmit={handleSearch} className="search-form">
           <div className="search-input-container">
             <svg className="search-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -78,13 +132,19 @@ export default function SearchPage() {
             </svg>
             <input
               ref={searchInputRef}
-              type="text"
+              type="search"
               className="search-input"
               placeholder="Search quotes or authors..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               autoFocus
+              autoComplete="off"
+              autoCorrect="off"
+              spellCheck="false"
               inputMode="search"
+              enterKeyHint="search"
+              // iOS safari specific
+              data-focusable="true"
             />
           </div>
           <button 
