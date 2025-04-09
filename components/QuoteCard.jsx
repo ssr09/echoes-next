@@ -18,6 +18,38 @@ const QuoteCard = memo(function QuoteCard({ quote, showAuthorLink = true }) {
     setIsLiked(quote.hasUpvoted || false);
   }, [quote.hasUpvoted]);
   
+  // Force cleanup of intermediate states
+  useEffect(() => {
+    // When showExplanation changes to false, ensure clean inactive state
+    if (!showExplanation) {
+      // Use a small timeout to ensure any transitions are complete
+      const timer = setTimeout(() => {
+        const explainBtn = document.querySelector('.explain-btn');
+        if (explainBtn && !explainBtn.classList.contains('active')) {
+          // Force remove any transition classes that might cause intermediate state
+          explainBtn.classList.remove('active');
+        }
+      }, 50);
+      return () => clearTimeout(timer);
+    }
+  }, [showExplanation]);
+  
+  // Force cleanup of intermediate states for similar button
+  useEffect(() => {
+    // When showSimilar changes to false, ensure clean inactive state
+    if (!showSimilar) {
+      // Use a small timeout to ensure any transitions are complete
+      const timer = setTimeout(() => {
+        const similarBtn = document.querySelector('.similar-btn');
+        if (similarBtn && !similarBtn.classList.contains('active')) {
+          // Force remove any transition classes that might cause intermediate state
+          similarBtn.classList.remove('active');
+        }
+      }, 50);
+      return () => clearTimeout(timer);
+    }
+  }, [showSimilar]);
+  
   // Fetch similar quotes when the similar button is clicked
   useEffect(() => {
     if (showSimilar && similarQuotes.length === 0) {
@@ -101,10 +133,12 @@ const QuoteCard = memo(function QuoteCard({ quote, showAuthorLink = true }) {
         </button>
         
         <button 
-          onClick={() => {
-            // If similar quotes are showing, close them first
+          onClick={(e) => {
+            // Prevent default to ensure no intermediate state
+            e.preventDefault();
+            // Close similar quotes if showing
             if (showSimilar) setShowSimilar(false);
-            // Toggle explanation
+            // Toggle explanation immediately
             setShowExplanation(!showExplanation);
           }} 
           className={`fb-action-btn explain-btn ${showExplanation ? 'active' : ''}`}
@@ -119,10 +153,12 @@ const QuoteCard = memo(function QuoteCard({ quote, showAuthorLink = true }) {
         </button>
         
         <button 
-          onClick={() => {
-            // If explanation is showing, close it first
+          onClick={(e) => {
+            // Prevent default to ensure no intermediate state
+            e.preventDefault();
+            // Close explanation if showing
             if (showExplanation) setShowExplanation(false);
-            // Toggle similar quotes
+            // Toggle similar quotes immediately
             setShowSimilar(!showSimilar);
           }} 
           className={`fb-action-btn similar-btn ${showSimilar ? 'active' : ''}`}
