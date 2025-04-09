@@ -39,7 +39,7 @@ export function QuotesProvider({ children }) {
     async function loadQuotes() {
       try {
         setIsLoading(true);
-        const response = await axios.get('/quotes.json');
+        const response = await axios.get('/quotes_BhagavadGita.json');
         
         // Process quotes to ensure they have necessary properties and add sources where possible
         const processedQuotes = response.data.map(quote => {
