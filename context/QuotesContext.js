@@ -181,55 +181,22 @@ export function QuotesProvider({ children }) {
     ).sort((a, b) => b.upvotes - a.upvotes);
   };
   
-  // Search quotes by text
+  // Search quotes by text (simple text-based search)
   const searchQuotes = (query) => {
     if (!query) return [];
     
-    const lowercaseQuery = query.toLowerCase();
-    const queryWords = lowercaseQuery.split(/\s+/).filter(word => word.length > 0);
+    const lowercaseQuery = query.toLowerCase().trim();
     
-    return quotes
-      .map(quote => {
-        const quoteText = quote.quote.toLowerCase();
-        const authorText = quote.author.toLowerCase();
-        const sourceText = quote.source ? quote.source.toLowerCase() : '';
-        
-        // Calculate match score
-        let score = 0;
-        
-        // Check for full query match
-        if (quoteText.includes(lowercaseQuery)) {
-          score += 10;
-        }
-        
-        if (authorText.includes(lowercaseQuery)) {
-          score += 5;
-        }
-        
-        if (sourceText.includes(lowercaseQuery)) {
-          score += 3;
-        }
-        
-        // Check for individual word matches
-        queryWords.forEach(word => {
-          if (quoteText.includes(word)) {
-            score += 2;
-          }
-          if (authorText.includes(word)) {
-            score += 1;
-          }
-          if (sourceText.includes(word)) {
-            score += 1;
-          }
-        });
-        
-        return {
-          ...quote,
-          score
-        };
-      })
-      .filter(quote => quote.score > 0)
-      .sort((a, b) => b.score - a.score);
+    // Return quotes that contain the query in quote text, author, or source
+    return quotes.filter(quote => {
+      const quoteText = quote.quote.toLowerCase();
+      const authorText = quote.author.toLowerCase();
+      const sourceText = quote.source ? quote.source.toLowerCase() : '';
+      
+      return quoteText.includes(lowercaseQuery) || 
+             authorText.includes(lowercaseQuery) || 
+             sourceText.includes(lowercaseQuery);
+    });
   };
   
   // Get quotes for the feed (random, trending, or top)

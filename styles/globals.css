@@ -617,4 +617,68 @@ a {
 
 .similar-author-link:hover {
   color: #ffffff;
+}
+
+/* Add CSS for the no-results state in search */
+.no-results {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 3rem 1.5rem;
+  color: var(--text-color);
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.no-results-icon {
+  color: var(--accent-color);
+  opacity: 0.7;
+  margin-bottom: 1.5rem;
+}
+
+.no-results h3 {
+  font-size: 1.5rem;
+  margin-bottom: 0.75rem;
+  font-weight: 500;
+}
+
+.no-results p {
+  margin-bottom: 2rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.no-results-tips {
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 1.25rem;
+  width: 100%;
+  text-align: left;
+}
+
+.no-results-tips h4 {
+  font-size: 1rem;
+  margin-bottom: 0.75rem;
+  font-weight: 500;
+  color: var(--accent-color);
+}
+
+.no-results-tips ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.no-results-tips li {
+  position: relative;
+  padding-left: 1.5rem;
+  margin-bottom: 0.5rem;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.no-results-tips li:before {
+  content: "•";
+  position: absolute;
+  left: 0.5rem;
+  color: var(--accent-color);
 } 

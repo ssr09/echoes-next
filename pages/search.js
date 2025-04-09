@@ -91,8 +91,23 @@ export default function SearchPage() {
         ) : error ? (
           <div className="error">{error}</div>
         ) : hasSearched && searchResults.length === 0 ? (
-          <div className="error">
-            <p>No results found. Try different keywords or phrases.</p>
+          <div className="no-results">
+            <svg className="no-results-icon" width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="11" cy="11" r="8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M16.5 16.5L21 21" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M11 7V15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M7 11H15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+            <h3>No Matches Found</h3>
+            <p>We couldn't find any quotes matching "{searchQuery}"</p>
+            <div className="no-results-tips">
+              <h4>Try:</h4>
+              <ul>
+                <li>Using more general terms</li>
+                <li>Checking for typos</li>
+                <li>Searching for author names</li>
+              </ul>
+            </div>
           </div>
         ) : (
           <>
