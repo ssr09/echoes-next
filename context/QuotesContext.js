@@ -28,6 +28,15 @@ const commonSources = {
   'Bhagavad Gita': 'Bhagavad Gita'
 };
 
+// List of quote files to load
+const quoteFiles = [
+  '/quotes_BhagavadGita.json',
+  '/quotes_Confucius.json'
+  // Add more files here as needed
+  // '/quotes_Stoicism.json',
+  // '/quotes_Buddhism.json',
+];
+
 export function QuotesProvider({ children }) {
   // State for quotes data
   const [quotes, setQuotes] = useState([]);
@@ -39,24 +48,41 @@ export function QuotesProvider({ children }) {
     async function loadQuotes() {
       try {
         setIsLoading(true);
-        const response = await axios.get('/quotes_BhagavadGita.json');
         
-        // Process quotes to ensure they have necessary properties and add sources where possible
-        const processedQuotes = response.data.map(quote => {
-          // If the quote already has a source, use it
-          if (quote.source) {
-            return quote;
-          }
+        // Load quotes from all files
+        const quotesPromises = quoteFiles.map(file => axios.get(file));
+        const responses = await Promise.all(quotesPromises);
+        
+        // Merge all quotes into a single array
+        let allQuotes = [];
+        responses.forEach((response, index) => {
+          const sourceFile = quoteFiles[index].replace(/^\/|\.json$/g, '');
           
-          // Try to add sources for well-known authors
-          if (commonSources[quote.author]) {
-            return { ...quote, source: commonSources[quote.author] };
-          }
+          // Process quotes from this file
+          const processedQuotes = response.data.map((quote, idx) => {
+            // Ensure each quote has a unique ID (if not already provided)
+            const quoteWithId = {
+              ...quote,
+              id: quote.id || `${sourceFile}_${idx}`
+            };
+            
+            // If the quote already has a source, use it
+            if (quoteWithId.source) {
+              return quoteWithId;
+            }
+            
+            // Try to add sources for well-known authors
+            if (commonSources[quoteWithId.author]) {
+              return { ...quoteWithId, source: commonSources[quoteWithId.author] };
+            }
+            
+            return quoteWithId;
+          });
           
-          return quote;
+          allQuotes = [...allQuotes, ...processedQuotes];
         });
         
-        setQuotes(processedQuotes);
+        setQuotes(allQuotes);
         setError(null);
       } catch (err) {
         console.error('Error loading quotes:', err);
