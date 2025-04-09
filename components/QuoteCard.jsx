@@ -108,7 +108,12 @@ const QuoteCard = memo(function QuoteCard({ quote, showAuthorLink = true }) {
         </button>
         
         <button 
-          onClick={() => setShowSimilar(!showSimilar)} 
+          onClick={() => {
+            // If explanation is showing, close it first
+            if (showExplanation) setShowExplanation(false);
+            // Toggle similar quotes
+            setShowSimilar(!showSimilar);
+          }} 
           className={`fb-action-btn similar-btn ${showSimilar ? 'active' : ''}`}
           aria-label={showSimilar ? "Hide Similar" : "Show Similar"}
           title={showSimilar ? "Hide Similar" : "Show Similar"}
@@ -119,7 +124,12 @@ const QuoteCard = memo(function QuoteCard({ quote, showAuthorLink = true }) {
         </button>
         
         <button 
-          onClick={() => setShowExplanation(!showExplanation)} 
+          onClick={() => {
+            // If similar quotes are showing, close them first
+            if (showSimilar) setShowSimilar(false);
+            // Toggle explanation
+            setShowExplanation(!showExplanation);
+          }} 
           className={`fb-action-btn explain-btn ${showExplanation ? 'active' : ''}`}
           aria-label={showExplanation ? "Hide Explanation" : "Explain"}
           title={showExplanation ? "Hide Explanation" : "Explain"}
