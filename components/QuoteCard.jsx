@@ -102,22 +102,6 @@ const QuoteCard = memo(function QuoteCard({ quote, showAuthorLink = true }) {
         
         <button 
           onClick={() => {
-            // If explanation is showing, close it first
-            if (showExplanation) setShowExplanation(false);
-            // Toggle similar quotes
-            setShowSimilar(!showSimilar);
-          }} 
-          className={`fb-action-btn similar-btn ${showSimilar ? 'active' : ''}`}
-          aria-label={showSimilar ? "Hide Similar" : "Show Similar"}
-          title={showSimilar ? "Hide Similar" : "Show Similar"}
-        >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-        </button>
-        
-        <button 
-          onClick={() => {
             // If similar quotes are showing, close them first
             if (showSimilar) setShowSimilar(false);
             // Toggle explanation
@@ -128,9 +112,29 @@ const QuoteCard = memo(function QuoteCard({ quote, showAuthorLink = true }) {
           title={showExplanation ? "Hide Explanation" : "Explain"}
         >
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.5"/>
-            <circle cx="12" cy="18" r="0.5" fill="currentColor" stroke="currentColor"/>
-            <path d="M12 16V14.5811C12 13.6369 12.6042 12.7986 13.5 12.5V12.5C14.3958 12.2014 15 11.3631 15 10.4189V9.90039C15 8.19923 13.6569 6.87305 12 6.87305V6.87305C10.3431 6.87305 9 8.19923 9 9.90039V10.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+            <path d="M9 21H15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M10 17H14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M12 3C8.68629 3 6 5.68629 6 9C6 10.2145 6.36084 11.3447 6.98117 12.2893C7.93747 13.7546 9 15.5 9 17H15C15 15.5 16.0625 13.7546 17.0188 12.2893C17.6392 11.3447 18 10.2145 18 9C18 5.68629 15.3137 3 12 3Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        </button>
+        
+        <button 
+          onClick={() => {
+            // If explanation is showing, close it first
+            if (showExplanation) setShowExplanation(false);
+            // Toggle similar quotes
+            setShowSimilar(!showSimilar);
+          }} 
+          className={`fb-action-btn similar-btn ${showSimilar ? 'active' : ''}`}
+          aria-label={showSimilar ? "Hide Similar" : "Show Similar"}
+          title={showSimilar ? "Hide Similar" : "Show Similar"}
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9 4H15C16.1046 4 17 4.89543 17 6V18C17 19.1046 16.1046 20 15 20H9C7.89543 20 7 19.1046 7 18V6C7 4.89543 7.89543 4 9 4Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M4 8C4 6.89543 4.89543 6 6 6H6.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M4 16C4 17.1046 4.89543 18 6 18H6.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M20 8C20 6.89543 19.1046 6 18 6H17.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M20 16C20 17.1046 19.1046 18 18 18H17.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
         </button>
         
