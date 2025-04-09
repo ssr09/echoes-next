@@ -147,7 +147,7 @@ const QuoteCard = memo(function QuoteCard({ quote, showAuthorLink = true }) {
       
       {showExplanation && quote.explanation && (
         <div className="explanation">
-          <h4>Context & Meaning</h4>
+          <h4>Context</h4>
           <p>{quote.explanation}</p>
         </div>
       )}
