@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/router';
 import { useQuotes } from '../context/QuotesContext';
 import QuoteCard from '../components/QuoteCard';
@@ -12,6 +12,20 @@ export default function SearchPage() {
   const [page, setPage] = useState(1);
   const resultsPerPage = 10;
   const [hasMore, setHasMore] = useState(true);
+  const searchInputRef = useRef(null);
+  
+  // Focus search input on component mount
+  useEffect(() => {
+    if (searchInputRef.current) {
+      setTimeout(() => {
+        searchInputRef.current.focus();
+        // Try to show the virtual keyboard on mobile
+        if (typeof window !== 'undefined' && /Mobi|Android/i.test(navigator.userAgent)) {
+          searchInputRef.current.click();
+        }
+      }, 100);
+    }
+  }, []);
   
   const handleSearch = (e) => {
     e.preventDefault();
@@ -63,12 +77,14 @@ export default function SearchPage() {
               <path d="M20 20L16 16" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
             <input
+              ref={searchInputRef}
               type="text"
               className="search-input"
               placeholder="Search quotes or authors..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               autoFocus
+              inputMode="search"
             />
           </div>
           <button 
