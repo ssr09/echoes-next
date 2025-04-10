@@ -1,11 +1,14 @@
 import '../styles/globals.css';
 import { QuotesProvider } from '../context/QuotesContext';
+import { ThemeProvider } from '../context/ThemeContext';
 
 function MyApp({ Component, pageProps }) {
   return (
-    <QuotesProvider>
-      <Component {...pageProps} />
-    </QuotesProvider>
+    <ThemeProvider>
+      <QuotesProvider>
+        <Component {...pageProps} />
+      </QuotesProvider>
+    </ThemeProvider>
   );
 }
 

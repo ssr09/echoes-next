@@ -1,4 +1,5 @@
 :root {
+  /* Default: Dark Theme Variables */
   --bg-color: #121212;
   --card-color: #1e1e1e;
   --text-color: #e0e0e0;
@@ -7,6 +8,42 @@
   --tag-bg: #2a2a2a;
   --tag-text: #a0a0a0;
   --explanation-bg: #1a1a1a;
+  --quote-text-color: #e0e0e0;
+  --author-color: #e0e0e0;
+  --link-color: #f0f0f0;
+  --icon-color: #a0a0a0;
+  --button-bg: rgba(255, 255, 255, 0.05);
+  --button-hover-bg: rgba(255, 255, 255, 0.1);
+  --button-active-bg: rgba(255, 255, 255, 0.15);
+  --button-active-shadow: rgba(255, 255, 255, 0.1);
+  --header-bg: #121212;
+  --header-shadow: rgba(0, 0, 0, 0.2);
+  --modal-bg: #1e1e1e;
+  --input-bg: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="light"] {
+  /* Light Theme Overrides */
+  --bg-color: #f0f2f5;
+  --card-color: #ffffff;
+  --text-color: #1c1e21;
+  --accent-color: #65676b;
+  --border-color: #ced0d4;
+  --tag-bg: #e7f3ff;
+  --tag-text: #1877f2;
+  --explanation-bg: #f5f5f5;
+  --quote-text-color: #1c1e21;
+  --author-color: #1c1e21;
+  --link-color: #000000;
+  --icon-color: #65676b;
+  --button-bg: rgba(0, 0, 0, 0.04);
+  --button-hover-bg: rgba(0, 0, 0, 0.08);
+  --button-active-bg: rgba(0, 0, 0, 0.12);
+  --button-active-shadow: rgba(0, 0, 0, 0.1);
+  --header-bg: #ffffff;
+  --header-shadow: rgba(0, 0, 0, 0.1);
+  --modal-bg: #ffffff;
+  --input-bg: rgba(0, 0, 0, 0.05);
 }
 
 * {
@@ -48,11 +85,11 @@ a {
   text-align: center;
   padding: 1rem;
   border-bottom: 1px solid var(--border-color);
-  background-color: var(--bg-color);
+  background-color: var(--header-bg);
   position: sticky;
   top: 0;
   z-index: 999;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 5px var(--header-shadow);
   width: 100%;
 }
 
@@ -68,7 +105,7 @@ a {
   text-align: left;
   padding: 0.5rem 1rem;
   border-bottom: 1px solid var(--border-color);
-  background-color: var(--bg-color);
+  background-color: var(--header-bg);
   max-width: 600px;
   margin: 0 auto;
   margin-bottom: 1.5rem;
@@ -83,17 +120,17 @@ a {
   background: none;
   border: none;
   cursor: pointer;
-  color: var(--accent-color);
+  color: var(--icon-color);
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 0.5rem;
   border-radius: 50%;
-  transition: all 0.2s ease;
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
 }
 
 .icon-button:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: var(--button-hover-bg);
   color: var(--text-color);
   transform: scale(1.1);
 }
@@ -180,6 +217,7 @@ a {
   margin-bottom: 1rem;
   quotes: """ """ "'" "'";
   white-space: pre-line;
+  color: var(--quote-text-color);
 }
 
 .quote-text::before {
@@ -203,7 +241,7 @@ a {
   text-align: right;
   font-style: italic;
   font-size: 1.1rem;
-  color: #e0e0e0;
+  color: var(--author-color);
   margin-bottom: 0.2rem;
   font-weight: 500;
 }
@@ -218,7 +256,7 @@ a {
 .author-link {
   cursor: pointer;
   text-decoration: underline;
-  color: #f0f0f0;
+  color: var(--link-color);
   transition: color 0.2s;
   display: inline-flex;
   align-items: center;
@@ -228,7 +266,7 @@ a {
 }
 
 .author-link:hover {
-  color: #ffffff;
+  color: var(--accent-color);
 }
 
 .author-arrow {
@@ -265,11 +303,11 @@ a {
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: var(--button-bg);
   border: none;
   border-radius: 9999px;
   cursor: pointer;
-  color: var(--accent-color);
+  color: var(--icon-color);
   font-size: 0.9rem;
   /* Use more specific transitions to avoid intermediate states */
   transition: background-color 0.15s ease, color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
@@ -291,7 +329,7 @@ a {
 }
 
 .fb-action-btn:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: var(--button-hover-bg);
   color: var(--text-color);
   transform: translateY(-1px);
 }
@@ -301,19 +339,19 @@ a {
 }
 
 .fb-action-btn.active {
-  color: #ffffff;
-  background-color: rgba(255, 255, 255, 0.15);
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+  color: var(--text-color);
+  background-color: var(--button-active-bg);
+  box-shadow: 0 0 0 1px var(--button-active-shadow) inset;
   /* Properly reset when inactive */
   transition: background-color 0.15s ease, color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
 }
 
 .fb-action-btn.liked {
-  color: #ff5c85;
+  color: #ff5c85; /* Keep liked color specific for now */
 }
 
 .fb-action-btn.liked svg {
-  fill: #ff5c85;
+  fill: #ff5c85; /* Keep liked color specific for now */
   color: #ff5c85;
 }
 
@@ -338,7 +376,7 @@ a {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: var(--bg-color);
+  background-color: var(--modal-bg);
   z-index: 1000;
   display: flex;
   flex-direction: column;
@@ -348,7 +386,7 @@ a {
 
 .search-modal-header {
   padding: 0.75rem 1rem;
-  background-color: var(--bg-color);
+  background-color: var(--header-bg);
   border-bottom: 1px solid var(--border-color);
   position: sticky;
   top: 0;
@@ -365,7 +403,7 @@ a {
 .search-input-container {
   display: flex;
   align-items: center;
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: var(--input-bg);
   border-radius: 10px;
   padding: 0.25rem 0.75rem;
   flex: 1;
@@ -375,7 +413,7 @@ a {
 }
 
 .search-icon {
-  color: var(--accent-color);
+  color: var(--icon-color);
   margin-right: 0.5rem;
 }
 
@@ -416,8 +454,8 @@ a {
   align-items: center;
   gap: 1rem;
   padding: 1rem;
-  background-color: var(--card-color);
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  background-color: var(--header-bg);
+  box-shadow: 0 2px 5px var(--header-shadow);
   margin-bottom: 0;
   position: sticky;
   top: 0;
@@ -444,7 +482,7 @@ a {
   text-align: center;
   margin-bottom: 0;
   padding: 1rem;
-  background-color: var(--card-color);
+  background-color: var(--header-bg);
   border-bottom: 1px solid var(--border-color);
   position: sticky;
   top: 0;
@@ -453,42 +491,13 @@ a {
 
 .author-name {
   font-size: 1.5rem;
-  font-weight: normal;
-  margin-bottom: 0.5rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
   color: var(--text-color);
 }
 
-.back-btn {
-  display: inline-block;
-  margin-top: 0.5rem;
-  padding: 0.5rem;
+.author-quote-count {
   color: var(--accent-color);
-  cursor: pointer;
-  transition: color 0.2s;
-}
-
-.back-btn:hover {
-  color: var(--text-color);
-}
-
-/* Responsive Adjustments */
-@media (min-width: 768px) {
-  .header h1 {
-    font-size: 2rem;
-  }
-  
-  .container {
-    padding: 1.5rem;
-  }
-  
-  .quote-text {
-    font-size: 1.25rem;
-  }
-}
-
-/* Quote Feed */
-.quote-feed {
-  padding-top: 1rem;
 }
 
 /* Explanation and similar quotes */
@@ -496,13 +505,13 @@ a {
   margin-top: 1.5rem;
   margin-bottom: 1rem;
   padding: 1.25rem;
-  background-color: rgba(255, 255, 255, 0.03);
+  background-color: var(--explanation-bg);
   border-radius: 12px;
   font-size: 0.9rem;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   line-height: 1.6;
   letter-spacing: 0.01em;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px var(--header-shadow);
   border: none;
   animation: fadeIn 0.4s ease-out;
 }
@@ -511,12 +520,13 @@ a {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   font-weight: 500;
   margin-bottom: 0.75rem;
-  color: #e0e0e0;
+  color: var(--text-color);
   font-size: 1rem;
 }
 
 .explanation p {
   white-space: pre-line;
+  color: var(--text-color);
 }
 
 @keyframes fadeIn {
@@ -534,19 +544,11 @@ a {
 }
 
 /* Header with back button */
-.header-main {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  max-width: 600px;
-  margin: 0 auto;
-}
-
 .back-arrow {
   background: none;
   border: none;
   cursor: pointer;
-  color: var(--accent-color);
+  color: var(--icon-color);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -557,7 +559,7 @@ a {
 }
 
 .back-arrow:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: var(--button-hover-bg);
   color: var(--text-color);
   transform: scale(1.1);
 }
@@ -580,14 +582,14 @@ a {
 }
 
 .similar-quote-item {
-  background-color: rgba(255, 255, 255, 0.02);
+  background-color: var(--button-bg);
   padding: 1rem;
   border-radius: 8px;
   transition: all 0.2s ease;
 }
 
 .similar-quote-item:hover {
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: var(--button-hover-bg);
   transform: translateY(-2px);
 }
 
@@ -597,6 +599,7 @@ a {
   margin-bottom: 0.5rem;
   font-style: italic;
   white-space: pre-line;
+  color: var(--text-color);
 }
 
 .similar-quote-author {
@@ -614,7 +617,7 @@ a {
 .similar-author-link {
   margin-left: 0.25rem;
   cursor: pointer;
-  color: #f0f0f0;
+  color: var(--link-color);
   transition: color 0.2s;
   border-bottom: 1px solid currentColor;
   text-decoration: none;
@@ -622,7 +625,7 @@ a {
 }
 
 .similar-author-link:hover {
-  color: #ffffff;
+  color: var(--text-color);
 }
 
 /* Add CSS for the no-results state in search */
@@ -639,7 +642,7 @@ a {
 }
 
 .no-results-icon {
-  color: var(--accent-color);
+  color: var(--icon-color);
   opacity: 0.7;
   margin-bottom: 1.5rem;
 }
@@ -648,15 +651,16 @@ a {
   font-size: 1.5rem;
   margin-bottom: 0.75rem;
   font-weight: 500;
+  color: var(--text-color);
 }
 
 .no-results p {
   margin-bottom: 2rem;
-  color: rgba(255, 255, 255, 0.7);
+  color: var(--accent-color);
 }
 
 .no-results-tips {
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: var(--button-bg);
   border-radius: 12px;
   padding: 1.25rem;
   width: 100%;
@@ -679,7 +683,7 @@ a {
   position: relative;
   padding-left: 1.5rem;
   margin-bottom: 0.5rem;
-  color: rgba(255, 255, 255, 0.8);
+  color: var(--text-color);
 }
 
 .no-results-tips li:before {
